@@ -9,11 +9,15 @@ class Snake
     {
     }
 
-    void add(int index)
+    void add_head(int index)
     { indices.push_back(index); }
 
-    void remove()
-    { indices.pop_front(); }
+    int remove_tail()
+    {
+        int i=indices.front();
+        indices.pop_front();
+        return i;
+    }
     
     friend ostream& operator<<(ostream& os,const Snake& s);
 };
