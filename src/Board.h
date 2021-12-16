@@ -1,14 +1,15 @@
 #include "Cell.h"
+#include "Cell_Neighbors.h"
 
 template <int width, int height>
 class Board
 {
     std::array<Cell, width*height> free;
-
+    Cell_Neighbors<width,height> cell_neighbors;
+    
  public:
     Board()
-    {
-
+    {        
     }
 
     Cell& operator[](int i)
@@ -18,7 +19,7 @@ class Board
     { return free[i]; }
 
     int index(int y,int x) const
-    { return y*width+x; }
+    { return index_helper(y,x,width); }
 
     template <int w, int h>
     friend ostream& operator<<(ostream& os,const Board<w,h>& b);
@@ -33,5 +34,6 @@ ostream& operator<<(ostream& os,const Board<width,height>& b)
             os<<b[b.index(y,x)];
         os<<'\n';
     }
+    os<<b.cell_neighbors;
     return os;
 }

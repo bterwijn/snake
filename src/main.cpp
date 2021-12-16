@@ -5,7 +5,7 @@ int main()
 {
     cout<<"snake\n";
 
-    Board<40,40> board;
+    Board<10,10> board;
     cout<<board;
 
     Snake snake;
