@@ -2,30 +2,35 @@
 #define BOARD_H
 #include "Includes.h"
 
-template <int width, int height>
 class Board
 {
-    Cells<width,height> cells;
-    Cell_Neighbors<width,height> cell_neighbors;
+    Cells cells;
+    Cell_Neighbors cell_neighbors;
     Snake snake;
     
  public:
     Board()
     {
-        
+        int si=rand()%(width*height);
+        snake.add_head(si);
+        auto s=xy(si);
+        si=index(s.x+1,s.y);
+        snake.add_head(si);
+        s=xy(si);
+        si=index(s.x,s.y+1);
+        snake.add_head(si);
     }
     
-    void draw()
+    void draw(const Window_Param& wp)
     {
-        cells.draw();
+        cells.draw(wp);
+        snake.draw(wp);
     }
     
-    template <int w, int h>
-    friend ostream& operator<<(ostream& os,const Board<w,h>& b);
+    friend ostream& operator<<(ostream& os,const Board& b);
 };
 
-template <int width, int height>
-ostream& operator<<(ostream& os,const Board<width,height>& b)
+ostream& operator<<(ostream& os,const Board& b)
 {
     return os<<b.cells;
 }

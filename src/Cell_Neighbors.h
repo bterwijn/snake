@@ -2,7 +2,6 @@
 #define CELL_NEIGHBORS_H
 #include "Includes.h"
 
-template <int width,int height>
 class Cell_Neighbors
 {
     array< vector<int>, width*height> neighbors;
@@ -14,13 +13,13 @@ class Cell_Neighbors
         {
             for (int x=0;x<width;x++)
             {
-                int i=index(y,x);
+                int i=index(x,y);
                 for (int dy=-1;dy<=1;dy+=2)
                 {
                     int ny=y+dy;
                     if (ny>0 && ny<height)
                     {
-                        int n=index(ny,x);
+                        int n=index(x,ny);
                         add(i,n);
                     }
                 }
@@ -29,16 +28,13 @@ class Cell_Neighbors
                     int nx=x+dx;
                     if (nx>0 && nx<width)
                     {
-                        int n=index(y,nx);
+                        int n=index(nx,y);
                         add(i,n);
                     }
                 }
             }
         }
     }
-
-    int index(int y,int x) const
-    { return index_helper(y,x,width); }
     
     void add(int index,int neighbor)
     { neighbors[index].push_back(neighbor); }
@@ -46,12 +42,10 @@ class Cell_Neighbors
     const vector<int>& operator[](int index) const
     { return neighbors[index]; }
 
-    template <int w,int h>
-    friend ostream& operator<<(ostream& os,const Cell_Neighbors<w,h>& c);
+    friend ostream& operator<<(ostream& os,const Cell_Neighbors& c);
 };
 
-template <int width,int height>
-ostream& operator<<(ostream& os,const Cell_Neighbors<width,height>& c)
+ostream& operator<<(ostream& os,const Cell_Neighbors& c)
 {
     for (int i=0;i<width*height;i++)
     {

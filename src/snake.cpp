@@ -2,9 +2,10 @@
 
 int main()
 {
+    srand (time(NULL));
     cout<<"snake\n";
 
-    Board<10,10> board;
+    Board board;
     cout<<board;
 
     MySDL::create_window("snake",600,600);
@@ -22,7 +23,7 @@ int main()
         }
 
         SDL_RenderClear(sdl()->renderer());
-        board.draw();
+        board.draw(window_param());
         SDL_SetRenderDrawColor(sdl()->renderer(),0,0,0,255); // black background
         SDL_RenderPresent(sdl()->renderer());
     }
