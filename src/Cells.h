@@ -18,6 +18,15 @@ class Cells
     const Cell& operator[](int i) const
     { return cells[i]; }
 
+    vector<int> filter_free(const vector<int>& cells)
+    {
+        vector<int> free;
+        for (int i : cells)
+            if (((*this)[i]).is_free())
+                free.push_back(i);
+        return free;
+    }
+    
     void draw(const Window_Param& wp)
     {
         Col white=MyColor(255,255,255,255);

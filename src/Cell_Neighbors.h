@@ -17,7 +17,7 @@ class Cell_Neighbors
                 for (int dy=-1;dy<=1;dy+=2)
                 {
                     int ny=y+dy;
-                    if (ny>0 && ny<height)
+                    if (ny>=0 && ny<height)
                     {
                         int n=index(x,ny);
                         add(i,n);
@@ -26,7 +26,7 @@ class Cell_Neighbors
                 for (int dx=-1;dx<=1;dx+=2)
                 {
                     int nx=x+dx;
-                    if (nx>0 && nx<width)
+                    if (nx>=0 && nx<width)
                     {
                         int n=index(nx,y);
                         add(i,n);
