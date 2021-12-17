@@ -1,7 +1,6 @@
-#include "Utils.h"
-
-int index_helper(int y,int x,int width)
-{ return y*width+x; }
+#ifndef CELL_NEIGHBORS_H
+#define CELL_NEIGHBORS_H
+#include "Includes.h"
 
 template <int width,int height>
 class Cell_Neighbors
@@ -63,3 +62,5 @@ ostream& operator<<(ostream& os,const Cell_Neighbors<width,height>& c)
     }
     return os;
 }
+
+#endif

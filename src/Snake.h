@@ -1,4 +1,6 @@
-#include "Utils.h"
+#ifndef SNAKE_H
+#define SNAKE_H
+#include "Includes.h"
 
 class Snake
 {
@@ -18,6 +20,9 @@ class Snake
         indices.pop_front();
         return i;
     }
+
+    int length()
+    { return indices.size(); }
     
     friend ostream& operator<<(ostream& os,const Snake& s);
 };
@@ -28,3 +33,5 @@ ostream& operator<<(ostream& os,const Snake& s)
         os<< i <<' ';
     return os;
 }
+
+#endif

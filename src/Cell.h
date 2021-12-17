@@ -1,4 +1,7 @@
-#include "Utils.h"
+#ifndef CELL_H
+#define CELL_H
+#include "Includes.h"
+
 
 class Cell
 {
@@ -17,3 +20,5 @@ ostream& operator<<(ostream& os,const Cell& c)
 {
     return os<< (c.free ? " ." : " *");
 }
+
+#endif

@@ -1,26 +1,25 @@
-#include "Cell.h"
-#include "Cell_Neighbors.h"
+#ifndef BOARD_H
+#define BOARD_H
+#include "Includes.h"
 
 template <int width, int height>
 class Board
 {
-    std::array<Cell, width*height> free;
+    Cells<width,height> cells;
     Cell_Neighbors<width,height> cell_neighbors;
+    Snake snake;
     
  public:
     Board()
-    {        
+    {
+        
     }
-
-    Cell& operator[](int i)
-    { return free[i]; }
-
-    const Cell& operator[](int i) const
-    { return free[i]; }
-
-    int index(int y,int x) const
-    { return index_helper(y,x,width); }
-
+    
+    void draw()
+    {
+        cells.draw();
+    }
+    
     template <int w, int h>
     friend ostream& operator<<(ostream& os,const Board<w,h>& b);
 };
@@ -28,12 +27,7 @@ class Board
 template <int width, int height>
 ostream& operator<<(ostream& os,const Board<width,height>& b)
 {
-    for (int y=0;y<height;y++)
-    {
-        for (int x=0;x<width;x++)
-            os<<b[b.index(y,x)];
-        os<<'\n';
-    }
-    os<<b.cell_neighbors;
-    return os;
+    return os<<b.cells;
 }
+
+#endif
