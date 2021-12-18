@@ -32,8 +32,8 @@ int square_distance(int index1,int index2)
     return (c1-c2).square_length();
 }
 
-int distance(int index1,int index2)
-{ return square_distance(index1,index2);}
+double distance(int index1,int index2)
+{ return sqrt(square_distance(index1,index2));}
 
 struct Window_Param
 {

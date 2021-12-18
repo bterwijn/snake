@@ -4,9 +4,10 @@
 
 struct index_dist_score
 {
-    int index,dist,score;
+    int index,dist;
+    double score;
     
-    index_dist_score(int index,int dist,int score)
+    index_dist_score(int index,int dist,double score)
     { this->index=index; this->dist=dist; this->score=score; }
 };
 
@@ -49,7 +50,7 @@ class A_Star
                 {
                     closed.insert({i,best.index});
                     int dist=best.dist+1;
-                    int score=dist+distance(i,end);
+                    double score=dist+distance(i,end);
                     index_dist_score ids{i,dist,score};
                     fringe.push(ids);
                     auto found=find(ends.begin(), ends.end(), i);
