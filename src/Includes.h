@@ -6,10 +6,14 @@
 #include <time.h>
 
 #include <iostream>
+#include <cmath>
 #include <tuple>
 #include <array>
 #include <deque>
 #include <vector>
+#include <unordered_map>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
 #include "MySDL.h"
@@ -19,6 +23,7 @@ using namespace std;
 #include "Cells.h"
 #include "Cell_Neighbors.h"
 #include "Snake.h"
+#include "A_Star.h"
 #include "Board.h"
 
 #endif

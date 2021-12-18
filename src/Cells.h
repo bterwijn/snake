@@ -18,7 +18,7 @@ class Cells
     const Cell& operator[](int i) const
     { return cells[i]; }
 
-    vector<int> filter_free(const vector<int>& cells)
+    vector<int> filter_free(const vector<int>& cells) const
     {
         vector<int> free;
         for (int i : cells)
@@ -38,6 +38,18 @@ class Cells
             lineColor(sdl()->renderer(),
                       wp.border+x*wp.cell_width,wp.border,
                       wp.border+x*wp.cell_width,wp.height-wp.border, white); // draw line
+        for (int y=0;y<width;y++)
+        {
+            for (int x=0;x<width+1;x++)
+            {
+                if (!cells[index(x,y)].is_free())
+                {
+                    int cx=wp.border+x*wp.cell_width+wp.cell_width/2;
+                    int cy=wp.border+y*wp.cell_height+wp.cell_height/2;
+                    filledEllipseColor(sdl()->renderer(),cx,cy,wp.cell_width/4,wp.cell_height/4, MyColor(0,0,255,255));
+                }
+            }
+        }
     }
     
     friend ostream& operator<<(ostream& os,const Cells& c);

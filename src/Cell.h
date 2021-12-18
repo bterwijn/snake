@@ -13,7 +13,7 @@ class Cell
         free=true;
     }
 
-    bool is_free()
+    bool is_free() const
     { return free; }
     
     void set_free(bool free)
