@@ -1,5 +1,5 @@
-#ifndef CELL_NEIGHBORS_H
-#define CELL_NEIGHBORS_H
+#ifndef CELL_NEIGHBORS_H_INCLUDED
+#define CELL_NEIGHBORS_H_INCLUDED
 #include "Includes.h"
 
 class Cell_Neighbors

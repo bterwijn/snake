@@ -1,9 +1,9 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_H_INCLUDED
+#define UTILS_H_INCLUDED
 #include "Includes.h"
 
-constexpr int width{10};
-constexpr int height{10};
+constexpr int width{20};
+constexpr int height{20};
 
 int index(int x,int y)
 { return x+y*width; }
@@ -37,16 +37,17 @@ double distance(int index1,int index2)
 
 struct Window_Param
 {
-    int border,width,height,cell_width,cell_height;
+    int width,height;
+    double border,cell_width,cell_height;
 };
 
 Window_Param window_param()
 {
     Window_Param wp;
-    wp.border=10;
+    wp.border=10.0;
     sdl()->getSize(wp.width,wp.height);
-    wp.cell_width=(wp.width-wp.border*2)/width;
-    wp.cell_height=(wp.height-wp.border*2)/height;
+    wp.cell_width=(wp.width-wp.border*2.0)/width;
+    wp.cell_height=(wp.height-wp.border*2.0)/height;
     return wp;
 }
 
@@ -64,12 +65,19 @@ ostream& operator<<(ostream& os,const vector<T>& v)
 }
 
 template<class K,class V>
-ostream& operator<<(ostream& os,const unordered_map<K,V>& v)
+ostream& operator<<(ostream& os,const unordered_map<K,V>& m)
 {
-    for (auto i : v)
+    for (auto i : m)
         os<<i.first<<':'<<i.second<<' ';
     return os;
 }
 
+template<class T>
+ostream& operator<<(ostream& os,const unordered_set<T>& s)
+{
+    for (auto i : s)
+        os<<i<<' ';
+    return os;
+}
 
 #endif

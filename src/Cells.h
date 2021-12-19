@@ -1,5 +1,5 @@
-#ifndef CELLS_H
-#define CELLS_H
+#ifndef CELLS_H_INCLUDED
+#define CELLS_H_INCLUDED
 #include "Includes.h"
 
 class Cells
@@ -38,6 +38,11 @@ class Cells
             lineColor(sdl()->renderer(),
                       wp.border+x*wp.cell_width,wp.border,
                       wp.border+x*wp.cell_width,wp.height-wp.border, white); // draw line
+    }
+
+    void draw_non_free(const Window_Param& wp)
+    {
+        Col blue=MyColor(0,0,255,255);
         for (int y=0;y<width;y++)
         {
             for (int x=0;x<width+1;x++)
@@ -46,7 +51,7 @@ class Cells
                 {
                     int cx=wp.border+x*wp.cell_width+wp.cell_width/2;
                     int cy=wp.border+y*wp.cell_height+wp.cell_height/2;
-                    filledEllipseColor(sdl()->renderer(),cx,cy,wp.cell_width/4,wp.cell_height/4, MyColor(0,0,255,255));
+                    filledEllipseColor(sdl()->renderer(),cx,cy,wp.cell_width/4,wp.cell_height/4, blue);
                 }
             }
         }

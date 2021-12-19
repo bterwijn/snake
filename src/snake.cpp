@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "Includes.h"
 
 constexpr int SCREEN_FPS = 60;
 constexpr int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -11,6 +11,8 @@ int main()
     Board board;
     cout<<board;
 
+    Breadth_First breadth_first;
+    
     MySDL::create_window("snake",600,600);
     bool running=true;
     while (running)
@@ -27,13 +29,16 @@ int main()
         }
 
         SDL_RenderClear(sdl()->renderer());
-        board.step();
+
+        //board.step();
+        breadth_first.step(board);
         board.draw(window_param());
+        
         SDL_SetRenderDrawColor(sdl()->renderer(),0,0,0,255); // black background
         SDL_RenderPresent(sdl()->renderer());
         int frame_ticks=SDL_GetTicks()-ticks_start;
         if( frame_ticks < SCREEN_TICKS_PER_FRAME ) SDL_Delay( SCREEN_TICKS_PER_FRAME - frame_ticks ); // delay for right framerate
-        press_enter();
+        //press_enter();
     }
     
     return 0;

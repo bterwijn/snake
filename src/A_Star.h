@@ -1,5 +1,5 @@
-#ifndef A_STAR_H
-#define A_STAR_H
+#ifndef A_STAR_H_INCLUDED
+#define A_STAR_H_INCLUDED
 #include "Includes.h"
 
 struct index_dist_score
@@ -83,7 +83,7 @@ class A_Star
     friend ostream& operator<<(ostream& os,const A_Star& a);
 };
 
-ostream& operator<<(ostream& os,const A_Star& a)
+ostream& operator<<(ostream& os,[[maybe_unused]] const A_Star& a)
 {
     //for (auto i : a.fringe)
     //    os<<i<<'\n';

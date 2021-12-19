@@ -1,7 +1,6 @@
-#ifndef CELL_H
-#define CELL_H
+#ifndef CELL_H_INCLUDED
+#define CELL_H_INCLUDED
 #include "Includes.h"
-
 
 class Cell
 {

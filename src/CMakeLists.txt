@@ -7,3 +7,4 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 add_executable(snake snake.cpp)
 target_link_libraries(snake ${SDL2_LIBRARIES} -lSDL2 -lSDL2_image -lSDL2_gfx -lSDL2_ttf)
+target_compile_features(snake PRIVATE cxx_std_17 )
