@@ -22,6 +22,6 @@ class Constraint
 };
 
 ostream& operator<<(ostream& os,[[maybe_unused]] const Constraint& c)
-{ return os<<c.connection_count<<':'<<c.vars; }
+{ return os<<c.connection_count<<':'<<c.vars<<'\n'; }
 
 #endif

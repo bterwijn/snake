@@ -12,8 +12,6 @@ struct Directions
     
     enum directions {left_index,up_index,right_index,down_index};
     static constexpr array<Coord,Directions::nr_directions> directions={left,up,right,down};
-    constexpr const Coord& operator[](int i)
-    { return Directions::directions[i];}
 };
 
 #endif

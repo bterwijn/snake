@@ -8,6 +8,27 @@ class Hamilton_Circuit
     array<bool,width*height> vars;
     vector<Constraint> constraints;
 
+    Constraint build_constraint_graph(const Board& board,Coord c,int fixed_connections=0)
+    {
+        int cell_index=index(c);
+        vector<int> vars;
+        for (int d=0;d<Directions::nr_directions;d++)
+        {
+            auto neigbor=c+Directions::directions[d];
+            if (is_on_board(neigbor))
+            {
+                int neigbor_index=index(neigbor);
+                if (board.is_free_cell(neigbor_index) ||
+                    neigbor_index==board.get_head() ||
+                    neigbor_index==board.get_tail())
+                {
+                    vars.push_back(cell_to_vars[cell_index][d]);
+                }
+            }
+        }
+        return Constraint(vars,2-fixed_connections);
+    }
+    
     void build_constraint_graph(const Board& board)
     {
         constraints.clear();
@@ -15,56 +36,38 @@ class Hamilton_Circuit
         {
             for (int x=0;x<width;x++)
             {
-                int connection_count=0;
-                vector<int> vars;
-                if (x>0)
-                {
-                    int i=index(x-1,y);
-                    if (board.is_free_cell(i))
-                    {
-                        vars.push_back(cell_to_vars[i][Directions::left_index]);
-                        connection_count++;
-                    }
-                }
-                if (y>0)
-                {
-                    int i=index(x,y-1);
-                    if (board.is_free_cell(i))
-                    {
-                        vars.push_back(cell_to_vars[i][Directions::up_index]);
-                        connection_count++;
-                    }
-                }
-                if (x<width-1)
-                {
-                    int i=index(x+1,y);
-                    if (board.is_free_cell(i))
-                    {
-                        vars.push_back(cell_to_vars[i][Directions::right_index]);
-                        connection_count++;
-                    }
-                }
-                if (y<height-1)
-                {
-                    int i=index(x,y+1);
-                    if (board.is_free_cell(i))
-                    {
-                        vars.push_back(cell_to_vars[i][Directions::down_index]);
-                        connection_count++;
-                    }
-                }
+                Constraint c=build_constraint_graph(board,Coord(x,y));
+                constraints.push_back(c);
             }
         }
+        if (board.snake_length()==1)
+        {
+            Constraint head=build_constraint_graph(board,xy(board.get_head()));
+            constraints.push_back(head);
+        }
+        else
+        {
+            Constraint head=build_constraint_graph(board,xy(board.get_head()),1);
+            constraints.push_back(head);
+            Constraint tail=build_constraint_graph(board,xy(board.get_tail()),1);
+            constraints.push_back(head);
+        }
+    }
+
+    bool hamilton_cycle(const Board& board)
+    {
+        build_constraint_graph(board);
+        return true;
     }
     
  public:
     Hamilton_Circuit()
     {
     }
-
-    bool hamilton_cycle(const Board& board)
+    
+    bool step(Board& board)
     {
-        
+        return hamilton_cycle(board);
     }
     
     void draw(const Window_Param& wp)
@@ -77,6 +80,7 @@ class Hamilton_Circuit
 ostream& operator<<(ostream& os,[[maybe_unused]] const Hamilton_Circuit& h)
 {
     os<<h.cell_to_vars<<'\n';
+    os<<h.constraints<<'\n';
     return os;
 }
 

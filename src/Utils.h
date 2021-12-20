@@ -4,6 +4,7 @@
 
 constexpr int width{10};
 constexpr int height{10};
+constexpr Coord zero,board_size{width,height};
 
 int index(int x,int y)
 { return x+y*width; }
@@ -13,6 +14,12 @@ int index(const Coord& c)
 
 Coord xy(int index)
 { return {index%width, index/width}; }
+
+bool is_on_board(const Coord& c)
+{ return c>=zero && c<board_size; }
+
+bool is_on_board(int x,int y)
+{ return is_on_board(Coord{x,y}); }
 
 int square_distance(int index1,int index2)
 {

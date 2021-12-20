@@ -40,6 +40,22 @@ ostream& operator<<(ostream& os,const CoordT<T>& c)
 }
 
 template<class T,class D>
+bool operator<(const CoordT<T>& c1,const CoordT<D>& c2)
+{ return c1.x<c2.x && c1.y<c2.y;}
+
+template<class T,class D>
+bool operator<=(const CoordT<T>& c1,const CoordT<D>& c2)
+{ return c1.x<=c2.x && c1.y<=c2.y;}
+
+template<class T,class D>
+bool operator>(const CoordT<T>& c1,const CoordT<D>& c2)
+{ return c1.x>c2.x && c1.y>c2.y;}
+
+template<class T,class D>
+bool operator>=(const CoordT<T>& c1,const CoordT<D>& c2)
+{ return c1.x>=c2.x && c1.y>=c2.y;}
+
+template<class T,class D>
 CoordT<T>& operator+=(CoordT<T>& c1,const CoordT<D>& c2)
 {
     c1.x+=c2.x;
