@@ -2,8 +2,8 @@
 #define UTILS_H_INCLUDED
 #include "Includes.h"
 
-constexpr int width{20};
-constexpr int height{20};
+constexpr int width{10};
+constexpr int height{10};
 
 int index(int x,int y)
 { return x+y*width; }
@@ -54,6 +54,14 @@ Window_Param window_param()
 void press_enter()
 {
     cout<<"hit ENTER";cin.get();
+}
+
+template<class T,size_t S>
+ostream& operator<<(ostream& os,const array<T,S>& a)
+{
+    for (auto i : a)
+        os<<i<<' ';
+    return os;
 }
 
 template<class T>

@@ -23,6 +23,7 @@ class Board
     {
         int i=rand()%(width*height);
         step_helper(i,false);
+        cout<<"sizeof:"<<sizeof(cells)<<'\n';
     }
 
     int get_head(int i=0) const
@@ -34,13 +35,13 @@ class Board
     int snake_length() const
     { return snake.length(); }
 
-    bool is_free_cell(int i)
+    bool is_free_cell(int i) const
     { return cells[i].is_free(); }
 
-    const vector<int>& get_neighbors(int i)
+    const vector<int>& get_neighbors(int i) const
     { return cell_neighbors[i]; }
         
-    vector<int> get_free_neighbors(int i)
+    vector<int> get_free_neighbors(int i) const
     { return cells.filter_free(cell_neighbors[i]); }
 
     void step(int i)
