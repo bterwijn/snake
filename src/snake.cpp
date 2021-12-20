@@ -9,6 +9,9 @@ int main()
     cout<<"snake\n";
 
     Board board;
+    board.step();
+    board.step();
+    board.step();
     cout<<board;
 
     Breadth_First breadth_first;

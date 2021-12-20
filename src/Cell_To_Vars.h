@@ -48,7 +48,7 @@ ostream& operator<<(ostream& os,[[maybe_unused]] const Cell_To_Vars& c)
         for (int x=0;x<width;x++)
         {
             int cell=index(x,y);
-            cout<<"cell:"<<cell<<" "<<c.cell_to_vars[index(x,y)]<<'\n';
+            cout<<"cell:"<<cell<<" vars:"<<c.cell_to_vars[index(x,y)]<<'\n';
         }
     }
     return os;

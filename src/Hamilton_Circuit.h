@@ -50,7 +50,7 @@ class Hamilton_Circuit
             Constraint head=build_constraint_graph(board,xy(board.get_head()),1);
             constraints.push_back(head);
             Constraint tail=build_constraint_graph(board,xy(board.get_tail()),1);
-            constraints.push_back(head);
+            constraints.push_back(tail);
         }
     }
 

@@ -13,25 +13,16 @@ class Cell_Neighbors
         {
             for (int x=0;x<width;x++)
             {
-                int i=index(x,y);
-                for (int dy=-1;dy<=1;dy+=2)
+                Coord c=Coord(x,y);
+                int ci=index(c);
+                for (int d=0;d<Directions::nr_directions;d++)
                 {
-                    int ny=y+dy;
-                    if (ny>=0 && ny<height)
+                    auto neigbor=c+Directions::directions[d];
+                    if (is_on_board(neigbor))
                     {
-                        int n=index(x,ny);
-                        add(i,n);
+                        add(ci,index(neigbor));
                     }
-                }
-                for (int dx=-1;dx<=1;dx+=2)
-                {
-                    int nx=x+dx;
-                    if (nx>=0 && nx<width)
-                    {
-                        int n=index(nx,y);
-                        add(i,n);
-                    }
-                }
+                }                
             }
         }
     }
