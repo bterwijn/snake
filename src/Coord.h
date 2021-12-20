@@ -2,12 +2,13 @@
 #define COORD_H_INCLUDED
 #include "Includes.h"
 
-struct Coord
+template<class T>
+struct CoordT
 {
-    int x,y;
+    T x,y;
 
  public:
-    constexpr Coord(int x,int y) : x{x},y{y}
+    constexpr CoordT(T x,T y) : x{x},y{y}
     { }
 
     constexpr int operator[](int i) const
@@ -25,46 +26,41 @@ struct Coord
 
 };
 
-struct Directions
-{
-    static constexpr int nr_directions=4;
-    static constexpr Coord left{-1,0};
-    static constexpr Coord up{0,-1};
-    static constexpr Coord right{+1,0};
-    static constexpr Coord down{0,+1};
-    enum directions {left_index,up_index,right_index,down_index};
-    static constexpr array<Coord,Directions::nr_directions> directions={left,up,right,down};
-    constexpr const Coord& operator[](int i)
-    { return Directions::directions[i];}
-};
-    
-Coord& operator+=(Coord& c1,const Coord& c2)
+using Coord = CoordT<int>;
+using CoorD = CoordT<double>;
+
+template<class T,class D>
+CoordT<T>& operator+=(CoordT<T>& c1,const CoordT<D>& c2)
 {
     c1.x+=c2.x;
     c1.y+=c2.y; 
     return c1;
 }
 
-Coord& operator-=(Coord& c1,const Coord& c2)
+template<class T,class D>
+CoordT<T>& operator-=(CoordT<T>& c1,const CoordT<D>& c2)
 {
     c1.x-=c2.x;
     c1.y-=c2.y; 
     return c1;
 }
-    
-Coord operator+(const Coord& c1,const Coord& c2)
+
+template<class T,class D>
+CoordT<T> operator+(const CoordT<T>& c1,const CoordT<D>& c2)
 {
-    Coord r=c1;
+    CoordT r=c1;
     return r+=c2;
 }
 
-Coord operator-(const Coord& c1,const Coord& c2)
+template<class T,class D>
+CoordT<T> operator-(const CoordT<T>& c1,const CoordT<D>& c2)
 {
-    Coord r=c1;
+    CoordT r=c1;
     return r-=c2;
 }
 
-ostream& operator<<(ostream& os,[[maybe_unused]] const Coord& c)
+template<class T>
+ostream& operator<<(ostream& os,[[maybe_unused]] const CoordT<T>& c)
 {
     os<<c.x<<','<<c.y;
     return os;
