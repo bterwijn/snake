@@ -22,7 +22,7 @@ class Hamilton_Circuit
                     int i=index(x-1,y);
                     if (board.is_free_cell(i))
                     {
-                        vars.push_back(cell_to_vars[i][Cell_To_Vars::left]);
+                        vars.push_back(cell_to_vars[i][Directions::left_index]);
                         connection_count++;
                     }
                 }
@@ -31,7 +31,7 @@ class Hamilton_Circuit
                     int i=index(x,y-1);
                     if (board.is_free_cell(i))
                     {
-                        vars.push_back(cell_to_vars[i][Cell_To_Vars::up]);
+                        vars.push_back(cell_to_vars[i][Directions::up_index]);
                         connection_count++;
                     }
                 }
@@ -40,7 +40,7 @@ class Hamilton_Circuit
                     int i=index(x+1,y);
                     if (board.is_free_cell(i))
                     {
-                        vars.push_back(cell_to_vars[i][Cell_To_Vars::right]);
+                        vars.push_back(cell_to_vars[i][Directions::right_index]);
                         connection_count++;
                     }
                 }
@@ -49,7 +49,7 @@ class Hamilton_Circuit
                     int i=index(x,y+1);
                     if (board.is_free_cell(i))
                     {
-                        vars.push_back(cell_to_vars[i][Cell_To_Vars::down]);
+                        vars.push_back(cell_to_vars[i][Directions::down_index]);
                         connection_count++;
                     }
                 }

@@ -4,11 +4,7 @@
 
 class Cell_To_Vars
 {
- public:
-    static constexpr int nr_directions=4;
-    enum directions {left,up,right,down};
-    using Vars = array<int,nr_directions>;
- private:
+    using Vars = array<int,Directions::nr_directions>;
     array<Vars,width*height> cell_to_vars;
     
  public:
@@ -21,15 +17,15 @@ class Cell_To_Vars
             {
                 Vars vars;
                 if (x==0)
-                    vars[left]=var_index++;
+                    vars[Directions::left_index]=var_index++;
                 else
-                    vars[left]=cell_to_vars[index(x-1,y)][right];
+                    vars[Directions::left_index]=cell_to_vars[index(x-1,y)][Directions::right_index];
                 if (y==0)
-                    vars[up]=var_index++;
+                    vars[Directions::up_index]=var_index++;
                 else
-                    vars[up]=cell_to_vars[index(x,y-y)][down];
-                vars[right]=var_index++;
-                vars[down]=var_index++;
+                    vars[Directions::up_index]=cell_to_vars[index(x,y-y)][Directions::down_index];
+                vars[Directions::right_index]=var_index++;
+                vars[Directions::down_index]=var_index++;
                 cell_to_vars[index(x,y)]=vars;
             }
         }

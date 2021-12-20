@@ -8,19 +8,8 @@ constexpr int height{10};
 int index(int x,int y)
 { return x+y*width; }
 
-struct Coord
-{
-    int x,y;
-
-    int square_length()
-    { return x*x+y*y; }
-};
-
-Coord operator+(const Coord& c1,const Coord& c2)
-{ return Coord{c1.x+c2.x,c1.y+c2.y}; }
-
-Coord operator-(const Coord& c1,const Coord& c2)
-{ return Coord{c1.x-c2.x,c1.y-c2.y}; }
+int index(const Coord& c)
+{ return index(c.x,c.y); }
 
 Coord xy(int index)
 { return {index%width, index/width}; }

@@ -18,6 +18,7 @@ using namespace std;
 
 #include "MySDL.h"
 
+#include "Coord.h"
 #include "Utils.h"
 #include "Snake.h"
 #include "Cell.h"
