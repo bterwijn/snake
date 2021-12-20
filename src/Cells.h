@@ -32,26 +32,28 @@ class Cells
         Col white=MyColor(255,255,255,255);
         for (int y=0;y<width+1;y++)
             lineColor(sdl()->renderer(),
-                      wp.border,wp.border+y*wp.cell_height,
-                      wp.width-wp.border,wp.border+y*wp.cell_height, white); // draw line
+                      wp.border.x,wp.border.x+y*wp.cell.y,
+                      wp.window.x-wp.border.x,wp.border.y+y*wp.cell.y, white); // draw line
         for (int x=0;x<width+1;x++)
             lineColor(sdl()->renderer(),
-                      wp.border+x*wp.cell_width,wp.border,
-                      wp.border+x*wp.cell_width,wp.height-wp.border, white); // draw line
+                      wp.border.x+x*wp.cell.x,wp.border.y,
+                      wp.border.x+x*wp.cell.x,wp.window.y-wp.border.y, white); // draw line
     }
 
     void draw_non_free(const Window_Param& wp)
     {
         Col blue=MyColor(0,0,255,255);
+        Coord b=wp.border+wp.cell/2;
+        CoorD w=wp.cell/4;
         for (int y=0;y<width;y++)
         {
-            for (int x=0;x<width+1;x++)
+            for (int x=0;x<width;x++)
             {
                 if (!cells[index(x,y)].is_free())
                 {
-                    int cx=wp.border+x*wp.cell_width+wp.cell_width/2;
-                    int cy=wp.border+y*wp.cell_height+wp.cell_height/2;
-                    filledEllipseColor(sdl()->renderer(),cx,cy,wp.cell_width/4,wp.cell_height/4, blue);
+                    auto p=Coord{x,y}*wp.cell;
+                    filledEllipseColor(sdl()->renderer(), b.x+p.x ,b.y+p.y,
+                                       (int)(w.x)     ,(int)(w.y)    , blue);
                 }
             }
         }

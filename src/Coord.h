@@ -8,6 +8,9 @@ struct CoordT
     T x,y;
 
  public:
+    constexpr CoordT() : x{0},y{0}
+    { }
+    
     constexpr CoordT(T x,T y) : x{x},y{y}
     { }
 
@@ -29,12 +32,25 @@ struct CoordT
 using Coord = CoordT<int>;
 using CoorD = CoordT<double>;
 
+template<class T>
+ostream& operator<<(ostream& os,const CoordT<T>& c)
+{
+    os<<c.x<<','<<c.y;
+    return os;
+}
+
 template<class T,class D>
 CoordT<T>& operator+=(CoordT<T>& c1,const CoordT<D>& c2)
 {
     c1.x+=c2.x;
     c1.y+=c2.y; 
     return c1;
+}
+template<class T,class D>
+CoordT<T> operator+(const CoordT<T>& c1,const CoordT<D>& c2)
+{
+    CoordT r{c1};
+    return r+=c2;
 }
 
 template<class T,class D>
@@ -44,26 +60,68 @@ CoordT<T>& operator-=(CoordT<T>& c1,const CoordT<D>& c2)
     c1.y-=c2.y; 
     return c1;
 }
-
-template<class T,class D>
-CoordT<T> operator+(const CoordT<T>& c1,const CoordT<D>& c2)
-{
-    CoordT r=c1;
-    return r+=c2;
-}
-
 template<class T,class D>
 CoordT<T> operator-(const CoordT<T>& c1,const CoordT<D>& c2)
 {
-    CoordT r=c1;
+    CoordT r{c1};
     return r-=c2;
 }
 
-template<class T>
-ostream& operator<<(ostream& os,[[maybe_unused]] const CoordT<T>& c)
+template<class T,class D>
+CoordT<T>& operator*=(CoordT<T>& c1,D t)
 {
-    os<<c.x<<','<<c.y;
-    return os;
+    c1.x*=t;
+    c1.y*=t;
+    return c1;
 }
+template<class T,class D>
+CoordT<T> operator*(const CoordT<T>& c1,D t)
+{
+    CoordT r{c1};
+    return r*=t;
+}
+
+template<class T,class D>
+CoordT<T>& operator/=(CoordT<T>& c1,D t)
+{
+    c1.x/=t;
+    c1.y/=t;
+    return c1;
+}
+template<class T,class D>
+CoordT<T> operator/(const CoordT<T>& c1,D t)
+{
+    CoordT<T> r{c1};
+    return r/=t;
+}
+
+template<class T,class D>
+CoordT<T>& operator*=(CoordT<T>& c1,const CoordT<D>& c2)
+{
+    c1.x*=c2.x;
+    c1.y*=c2.y; 
+    return c1;
+}
+template<class T,class D>
+CoordT<T> operator*(const CoordT<T>& c1,const CoordT<D>& c2)
+{
+    CoordT r{c1};
+    return r*=c2;
+}
+
+template<class T,class D>
+CoordT<T>& operator/=(CoordT<T>& c1,const CoordT<D>& c2)
+{
+    c1.x/=c2.x;
+    c1.y/=c2.y; 
+    return c1;
+}
+template<class T,class D>
+CoordT<T> operator/(const CoordT<T>& c1,const CoordT<D>& c2)
+{
+    CoordT r{c1};
+    return r/=c2;
+}
+
 
 #endif

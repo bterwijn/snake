@@ -68,15 +68,15 @@ class A_Star
     void draw(const Window_Param& wp)
     {
         Col red=MyColor(255,0,0,255);
+        Coord b=wp.border+wp.cell/2;
         for (auto i : closed)
         {
             auto c1=xy(i.first);
             auto c2=xy(i.second);
-            int x1=wp.border+wp.cell_width/2+c1.x*wp.cell_width;
-            int y1=wp.border+wp.cell_height/2+c1.y*wp.cell_height;
-            int x2=wp.border+wp.cell_width/2+c2.x*wp.cell_width;
-            int y2=wp.border+wp.cell_height/2+c2.y*wp.cell_height;
-            lineColor(sdl()->renderer(),x1,y1,x2,y2, red); // draw line
+            Coord p1=c1*wp.cell;
+            Coord p2=c2*wp.cell;
+            lineColor(sdl()->renderer(), b.x+p1.x, b.y+p1.y,
+                                         b.x+p2.x, b.y+p2.y, red); // draw line
         }
     }
     

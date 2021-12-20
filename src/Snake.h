@@ -71,26 +71,27 @@ class Snake
             return;
         Col green=MyColor(0,255,0,255);
         auto c1=xy(indices[0]);
-        int w=wp.cell_height/4;
+        CoorD w=wp.cell/4;
+        Coord b=wp.border+wp.cell/2;
         for (size_t i=1;i<indices.size();i++)
         {
             auto c2=xy(indices[i]);
-            int x1=wp.border+wp.cell_width/2+c1.x*wp.cell_width;
-            int x2=wp.border+wp.cell_width/2+c2.x*wp.cell_width;
+            int x1=c1.x*wp.cell.x;
+            int x2=c2.x*wp.cell.x;
             if (x2<x1) swap(x1,x2);
-            int y1=wp.border+wp.cell_height/2+c1.y*wp.cell_height;
-            int y2=wp.border+wp.cell_height/2+c2.y*wp.cell_height;
+            int y1=c1.y*wp.cell.y;
+            int y2=c2.y*wp.cell.y;
             if (y2<y1) swap(y1,y2);
-            boxColor(sdl()->renderer(),x1-w,y1-w,x2+w,y2+w,green);
+            boxColor(sdl()->renderer(), b.x+x1-w.x, b.y+y1-w.y,
+                                        b.x+x2+w.x, b.y+y2+w.y, green);
             c1=c2;
         }
-        Col dark_green=MyColor(0,155,0,255);
-        int x1=wp.border+wp.cell_width/2+c1.x*wp.cell_width;
-        int y1=wp.border+wp.cell_height/2+c1.y*wp.cell_height;
-        w=wp.cell_height/3;
-        filledEllipseColor(sdl()->renderer(),x1,y1,w,w,dark_green);
+        Col light_green=MyColor(100,255,100,255);
+        auto p=c1*wp.cell;
+        w=wp.cell/2.7;
+        filledEllipseColor(sdl()->renderer(), b.x+p.x, b.y+p.y,
+                                              w.x    , w.y    , light_green);
     }
-    
     friend ostream& operator<<(ostream& os,const Snake& s);
 };
 

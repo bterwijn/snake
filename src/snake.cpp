@@ -34,7 +34,7 @@ int main()
 
         //board.step();
         breadth_first.step(board);
-        board.draw(window_param());
+        board.draw(Window_Param());
         
         SDL_SetRenderDrawColor(sdl()->renderer(),0,0,0,255); // black background
         SDL_RenderPresent(sdl()->renderer());

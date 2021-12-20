@@ -26,19 +26,17 @@ double distance(int index1,int index2)
 
 struct Window_Param
 {
-    int width,height;
-    double border,cell_width,cell_height;
+    Coord window,border;
+    CoorD cell;
+    Window_Param()
+    {
+        sdl()->getSize(window.x,window.y);
+        this->border=Coord{20,20};
+        double cx=(window.x-2.0*border.x)/width;
+        double cy=(window.y-2.0*border.y)/height;
+        this->cell=CoorD{cx,cy};
+    }
 };
-
-Window_Param window_param()
-{
-    Window_Param wp;
-    wp.border=10.0;
-    sdl()->getSize(wp.width,wp.height);
-    wp.cell_width=(wp.width-wp.border*2.0)/width;
-    wp.cell_height=(wp.height-wp.border*2.0)/height;
-    return wp;
-}
 
 void press_enter()
 {
