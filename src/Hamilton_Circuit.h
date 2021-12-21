@@ -12,7 +12,7 @@ class Hamilton_Circuit
     array<bool,width*height> vars;
     Constrait_Queue constraints;
 
-    Constraint build_constraint_graph(const Board& board,Coord c,int fixed_connections=0)
+    Constraint build_constraint_graph(const Board& board,Coord c,bool check_head_tail_move=true,int fixed_connections=0)
     {
         int cell_index=index(c);
         vector<int> vars;
@@ -22,9 +22,9 @@ class Hamilton_Circuit
             if (is_on_board(neigbor))
             {
                 int neigbor_index=index(neigbor);
-                if (board.is_free_cell(neigbor_index) ||
-                    neigbor_index==board.get_head() ||
-                    neigbor_index==board.get_tail())
+                bool is_head_tail_move=(check_head_tail_move &&
+                                        (neigbor_index==board.get_head() || neigbor_index==board.get_tail()));
+                if (board.is_free_cell(neigbor_index) || is_head_tail_move)
                 {
                     vars.push_back(cell_to_vars[cell_index][d]);
                 }
@@ -46,14 +46,14 @@ class Hamilton_Circuit
         }
         if (board.snake_length()==1)
         {
-            Constraint head=build_constraint_graph(board,xy(board.get_head()));
+            Constraint head=build_constraint_graph(board,xy(board.get_head()),false);
             constraints.push(head);
         }
         else
         {
-            Constraint head=build_constraint_graph(board,xy(board.get_head()),1);
+            Constraint head=build_constraint_graph(board,xy(board.get_head()),false,1);
             constraints.push(head);
-            Constraint tail=build_constraint_graph(board,xy(board.get_tail()),1);
+            Constraint tail=build_constraint_graph(board,xy(board.get_tail()),false,1);
             constraints.push(tail);
         }
     }
