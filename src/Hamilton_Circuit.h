@@ -11,14 +11,30 @@ class Hamilton_Circuit
     Cell_To_Vars cell_to_vars;
     array<bool,width*height> vars;
     Constrait_Queue constraints;
-
-    Constraint build_constraint_graph(const Board& board,Coord c,bool check_head_tail_move=true,int fixed_connections=0)
+    
+ public:
+    Hamilton_Circuit()
     {
-        int cell_index=index(c);
+    }
+    
+    bool step(Board& board)
+    {
+        return hamilton_cycle(board);
+    }
+    
+    void draw(const Window_Param& wp)
+    {
+    }
+
+private:
+    
+    Constraint build_constraint_graph(const Board& board,Coord cell,bool check_head_tail_move=true,int fixed_connections=0)
+    {
+        int cell_index=index(cell);
         vector<int> vars;
         for (int d=0;d<Directions::nr_directions;d++)
         {
-            auto neigbor=c+Directions::directions[d];
+            auto neigbor=cell+Directions::directions[d];
             if (is_on_board(neigbor))
             {
                 int neigbor_index=index(neigbor);
@@ -36,25 +52,33 @@ class Hamilton_Circuit
     void build_constraint_graph(const Board& board)
     {
         constraints=Constrait_Queue{};
+        bool snake=board.snake_length()>0;
         for (int y=0;y<height;y++)
         {
             for (int x=0;x<width;x++)
             {
-                Constraint c=build_constraint_graph(board,Coord(x,y));
-                constraints.push(c);
+                auto cell=Coord(x,y);
+                if (board.is_free_cell(cell))
+                {
+                    Constraint c=build_constraint_graph(board,cell,snake);
+                    constraints.push(c);
+                }
             }
         }
-        if (board.snake_length()==1)
+        if (snake)
         {
-            Constraint head=build_constraint_graph(board,xy(board.get_head()),false);
-            constraints.push(head);
-        }
-        else
-        {
-            Constraint head=build_constraint_graph(board,xy(board.get_head()),false,1);
-            constraints.push(head);
-            Constraint tail=build_constraint_graph(board,xy(board.get_tail()),false,1);
-            constraints.push(tail);
+            if (board.snake_length()==1)
+            {
+                Constraint head=build_constraint_graph(board,xy(board.get_head()),false);
+                constraints.push(head);
+            }
+            else
+            {
+                Constraint head=build_constraint_graph(board,xy(board.get_head()),false,1);
+                constraints.push(head);
+                Constraint tail=build_constraint_graph(board,xy(board.get_tail()),false,1);
+                constraints.push(tail);
+            }
         }
     }
 
@@ -62,20 +86,6 @@ class Hamilton_Circuit
     {
         build_constraint_graph(board);
         return true;
-    }
-    
- public:
-    Hamilton_Circuit()
-    {
-    }
-    
-    bool step(Board& board)
-    {
-        return hamilton_cycle(board);
-    }
-    
-    void draw(const Window_Param& wp)
-    {
     }
     
     friend ostream& operator<<(ostream& os,const Hamilton_Circuit& h);

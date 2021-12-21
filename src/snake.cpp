@@ -13,6 +13,7 @@ int main()
     
     Board board;
     board.step();
+    board.step();
     cout<<board;
 
     Breadth_First breadth_first;

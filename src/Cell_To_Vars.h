@@ -34,10 +34,6 @@ class Cell_To_Vars
     const Vars& operator[](int i) const
     { return cell_to_vars[i]; }
     
-    void draw(const Window_Param& wp)
-    {
-    }
-    
     friend ostream& operator<<(ostream& os,const Cell_To_Vars& c);
 };
 

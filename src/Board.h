@@ -23,7 +23,6 @@ class Board
     {
         int i=rand()%(width*height);
         step_helper(i,false);
-        cout<<"sizeof:"<<sizeof(cells)<<'\n';
     }
 
     int get_head(int i=0) const
@@ -37,6 +36,9 @@ class Board
 
     bool is_free_cell(int i) const
     { return cells[i].is_free(); }
+
+    bool is_free_cell(const Coord& c) const
+    { return cells[index(c)].is_free(); }
 
     const vector<int>& get_neighbors(int i) const
     { return cell_neighbors[i]; }
