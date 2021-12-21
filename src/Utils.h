@@ -82,4 +82,24 @@ ostream& operator<<(ostream& os,const unordered_set<T>& s)
     return os;
 }
 
+template<class T,class Cont,class Comp>
+ostream& operator<<(ostream& os,const priority_queue<T,Cont,Comp>& p)
+{
+    priority_queue<T,Cont,Comp> copy{p};
+    while (copy.size()>0)
+    {
+        os<<copy.top()<<' ';
+        copy.pop();
+    }
+    return os;
+}
+
+int factorial(int n)
+{
+    int f=1;
+    for (int i=2;i<=n;i++)
+        f*=i;
+    return f;
+}
+
 #endif

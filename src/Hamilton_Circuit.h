@@ -4,9 +4,13 @@
 
 class Hamilton_Circuit
 {
+    using Constrait_Queue=priority_queue<Constraint,
+                                     vector<Constraint>,
+                                     greater<Constraint> >;
+    
     Cell_To_Vars cell_to_vars;
     array<bool,width*height> vars;
-    vector<Constraint> constraints;
+    Constrait_Queue constraints;
 
     Constraint build_constraint_graph(const Board& board,Coord c,int fixed_connections=0)
     {
@@ -31,26 +35,26 @@ class Hamilton_Circuit
     
     void build_constraint_graph(const Board& board)
     {
-        constraints.clear();
+        constraints=Constrait_Queue{};
         for (int y=0;y<height;y++)
         {
             for (int x=0;x<width;x++)
             {
                 Constraint c=build_constraint_graph(board,Coord(x,y));
-                constraints.push_back(c);
+                constraints.push(c);
             }
         }
         if (board.snake_length()==1)
         {
             Constraint head=build_constraint_graph(board,xy(board.get_head()));
-            constraints.push_back(head);
+            constraints.push(head);
         }
         else
         {
             Constraint head=build_constraint_graph(board,xy(board.get_head()),1);
-            constraints.push_back(head);
+            constraints.push(head);
             Constraint tail=build_constraint_graph(board,xy(board.get_tail()),1);
-            constraints.push_back(tail);
+            constraints.push(tail);
         }
     }
 

@@ -8,6 +8,9 @@ int main()
     //srand (time(NULL));
     cout<<"snake\n";
 
+    //Permutations permutations;
+    //cout<<permutations;
+    
     Board board;
     board.step();
     board.step();

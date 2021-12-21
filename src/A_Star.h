@@ -11,7 +11,7 @@ struct index_dist_score
     { this->index=index; this->dist=dist; this->score=score; }
 };
 
-bool operator<(const index_dist_score& is1,const index_dist_score& is2)
+bool operator>(const index_dist_score& is1,const index_dist_score& is2)
 { return is1.score>is2.score; }
 
 ostream& operator<<(ostream& os,const index_dist_score& i)
@@ -19,13 +19,16 @@ ostream& operator<<(ostream& os,const index_dist_score& i)
 
 class A_Star
 {
+    using Fringe_Queue=priority_queue<index_dist_score,
+                                      vector<index_dist_score>,
+                                      greater<index_dist_score> >;
     unordered_map<int,int> closed;
-    std::priority_queue<index_dist_score> fringe;
+    Fringe_Queue fringe;
 
     void clear()
     {
         closed.clear();
-        fringe=std::priority_queue<index_dist_score>();
+        fringe=Fringe_Queue{};
     }
     
  public:

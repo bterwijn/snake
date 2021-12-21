@@ -31,6 +31,7 @@ using namespace std;
 #include "Breadth_First.h"
 
 #include "Cell_To_Vars.h"
+#include "Permutations.h"
 #include "Constraint.h"
 #include "Hamilton_Circuit.h"
 
