@@ -23,7 +23,7 @@ class Cell_To_Vars
                 if (y==0)
                     vars[Directions::up_index]=var_index++;
                 else
-                    vars[Directions::up_index]=cell_to_vars[index(x,y-y)][Directions::down_index];
+                    vars[Directions::up_index]=cell_to_vars[index(x,y-1)][Directions::down_index];
                 vars[Directions::right_index]=var_index++;
                 vars[Directions::down_index]=var_index++;
                 cell_to_vars[index(x,y)]=vars;
