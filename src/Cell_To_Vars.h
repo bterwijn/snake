@@ -6,11 +6,11 @@ class Cell_To_Vars
 {
     using Vars = array<int,Directions::nr_directions>;
     array<Vars,width*height> cell_to_vars;
+    int var_index=0;
     
  public:
     Cell_To_Vars()
     {
-        int var_index=0;
         for (int y=0;y<height;y++)
         {
             for (int x=0;x<width;x++)
@@ -31,6 +31,9 @@ class Cell_To_Vars
         }
     }
 
+    int get_nr_vars() const
+    { return var_index; }
+    
     const Vars& operator[](int i) const
     { return cell_to_vars[i]; }
     

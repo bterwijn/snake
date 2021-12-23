@@ -91,7 +91,7 @@ class Breadth_First
         return false;
     }
     
-    void draw(const Window_Param& wp)
+    void draw([[maybe_unused]]const Window_Param& wp)
     {
     }
     

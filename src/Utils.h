@@ -93,6 +93,11 @@ ostream& operator<<(ostream& os,const priority_queue<T,Cont,Comp>& p)
     }
     return os;
 }
+template<class T1,class T2>
+ostream& operator<<(ostream& os,const pair<T1,T2>& p)
+{ return os<<p.first<<':'<<p.second; }
+
+
 
 int factorial(int n)
 {

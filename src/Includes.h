@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <queue>
 #include <algorithm>
+#include <cassert>
 using namespace std;
 
 #include "MySDL.h"
