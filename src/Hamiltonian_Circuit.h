@@ -1,8 +1,8 @@
-#ifndef HAMILTON_CIRCUIT_H_INCLUDED
-#define HAMILTON_CIRCUIT_H_INCLUDED
+#ifndef HAMILTONIAN_CIRCUIT_H_INCLUDED
+#define HAMILTONIAN_CIRCUIT_H_INCLUDED
 #include "Includes.h"
 
-class Hamilton_Circuit
+class Hamiltonian_Circuit
 {
     const Cell_To_Vars cell_to_vars;
     vector<Variable> variables;
@@ -10,13 +10,13 @@ class Hamilton_Circuit
     vector<Constraint> constraints;
     
  public:
-    Hamilton_Circuit() : cell_to_vars{}, variables(cell_to_vars.get_nr_vars())
+    Hamiltonian_Circuit() : cell_to_vars{}, variables(cell_to_vars.get_nr_vars())
     {
     }
     
     bool step(Board& board)
     {
-        return hamilton_cycle(board);
+        return hamiltonian_cycle(board);
     }
     
     void draw([[maybe_unused]]const Window_Param& wp)
@@ -91,7 +91,7 @@ private:
         int count=0;
         for (const auto& c:constraints)
         {
-            if (c.get_vars().size()>0)
+            if (c.is_active())
             {
                 if (count==0 || c<best)
                     best=c;
@@ -103,6 +103,7 @@ private:
 
     vector<Constraint> set_variable(vector<Variable>& variables,int var,bool value,vector<Constraint>& constraints)
     {
+        cout<<"set_variable var:"<<var<<" value:"<<value<<'\n';
         Variable& variable=variables[var];
         variable.set_value(value);
         vector<Constraint> undo;
@@ -131,6 +132,7 @@ private:
         Constraint& constraint=count_best.second;
         if (count_best.first>0)
         {
+            cout<<"values:"<<constraint.get_values()<<'\n';
             for (auto var : constraint.get_vars())
             {
                 for (auto value : constraint.get_values())
@@ -145,17 +147,17 @@ private:
         return false;
     }
     
-    bool hamilton_cycle(const Board& board)
+    bool hamiltonian_cycle(const Board& board)
     {
         build_constraint_graph(board);
         solve(variables,constraints);
         return true;
     }
     
-    friend ostream& operator<<(ostream& os,const Hamilton_Circuit& h);
+    friend ostream& operator<<(ostream& os,const Hamiltonian_Circuit& h);
 };
 
-ostream& operator<<(ostream& os,[[maybe_unused]] const Hamilton_Circuit& h)
+ostream& operator<<(ostream& os,[[maybe_unused]] const Hamiltonian_Circuit& h)
 {
     //os<<h.cell_to_vars<<'\n';
     os<<h.constraints<<'\n';

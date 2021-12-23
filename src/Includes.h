@@ -34,6 +34,6 @@ using namespace std;
 #include "Cell_To_Vars.h"
 #include "Permutations.h"
 #include "Constraint.h"
-#include "Hamilton_Circuit.h"
+#include "Hamiltonian_Circuit.h"
 
 #endif

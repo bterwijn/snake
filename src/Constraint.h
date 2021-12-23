@@ -19,6 +19,9 @@ class Constraint
         update_nr_permutations(permutations);
     }
 
+    bool is_active() const
+    { return vars.size()>0; }
+    
     int get_index() const
     { return index; }
     
@@ -40,7 +43,7 @@ class Constraint
         return vector<bool>{true,false};
     }
 
-    void set_variable(int var,int value)
+    void set_variable(int var,bool value)
     {
         auto found=find(vars.begin(), vars.end(), var);
         assert(found!=vars.end());
@@ -57,7 +60,7 @@ bool operator<(const Constraint& c1,const Constraint& c2)
 {
     if (c1.nr_permutations<c2.nr_permutations)
         return true;
-    if (c1.nr_permutations==c2.nr_permutations && c1.vars.size()<c2.vars.size())
+    if (c1.nr_permutations==c2.nr_permutations && c1.vars.size()>c2.vars.size())
         return true;
     return false;
 }
