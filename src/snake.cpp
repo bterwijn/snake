@@ -12,13 +12,13 @@ int main()
     //cout<<permutations;
     
     Board board;
-    board.step();
-    board.step();
+    //board.step();
+    //board.step();
     cout<<board;
 
     Breadth_First breadth_first;
-    Hamilton_Circuit hamilton_circuit;
-    hamilton_circuit.step(board);
+    Hamiltonian_Circuit hamiltonian_circuit;
+    hamiltonian_circuit.step(board);
     //cout<<hamilton_circuit;
     
     MySDL::create_window("snake",600,600);

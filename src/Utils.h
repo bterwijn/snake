@@ -2,8 +2,8 @@
 #define UTILS_H_INCLUDED
 #include "Includes.h"
 
-constexpr int width{3};
-constexpr int height{3};
+constexpr int width{5};
+constexpr int height{5};
 constexpr Coord zero,board_size{width,height};
 
 int index(int x,int y)

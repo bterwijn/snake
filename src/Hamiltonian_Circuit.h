@@ -32,7 +32,7 @@ private:
     
     void add_constraint(const Constraint& constraint)
     {
-        for (auto i : constraint.get_vars())
+        for (auto i : constraint.get_var_indices())
             variables[i].add_constraint_index(constraints.size());
         constraints.push_back(constraint);
     }
@@ -121,9 +121,49 @@ private:
         for (const auto& c : undo_info)
             constraints[c.get_index()]=c;
     }
-    
-    bool solve(vector<Variable>& variables,vector<Constraint>& constraints)
+
+    vector<bool> get_values_sorted(int var_index,vector<Variable>& variables,vector<Constraint>& constraints)
     {
+        static int draw_count=0;
+        const Variable& variable=variables[var_index];
+        auto constraint_indices=variable.get_constraint_indices();
+        array<pair<bool,int>,2> value_perms;
+        int max_perms=999;
+        value_perms[0]={true,max_perms};
+        value_perms[1]={false,max_perms};
+        for (auto& value_perms : value_perms)
+        {
+            for (int ci : constraint_indices)
+            {
+                Constraint c=constraints[ci]; // copy
+                if (!c.is_valid_value(value_perms.first))
+                {
+                    value_perms.second=-1;
+                }
+                else
+                {
+                    c.set_variable(var_index,value_perms.first);
+                    c.update_nr_permutations(permutations);
+                    int perms=c.get_nr_permutations();
+                    if (perms<value_perms.second)
+                        value_perms.second=perms;
+                }
+            }
+        }
+        if (value_perms[0]>value_perms[1] ||
+            (value_perms[0]==value_perms[1] && ((++draw_count)%2)>0)) // alternate on draw 
+            swap(value_perms[0],value_perms[1]);
+        cout<<"value_perms:"<<value_perms<<'\n';
+        vector<bool> values;
+        for (auto& value_perms : value_perms)
+            if (value_perms.second<max_perms && value_perms.second>0)
+                values.push_back(value_perms.first);
+        return values;
+    }
+    
+    bool solve(vector<Variable>& variables,vector<Constraint>& constraints,int depth)
+    {
+        cout<<"solve depth:"<<depth<<'\n';
         cout<<*this;
         auto count_best=get_lowest_contraint(constraints);
         cout<<"count_best:"<<count_best<<'\n';
@@ -132,16 +172,19 @@ private:
         Constraint& constraint=count_best.second;
         if (count_best.first>0)
         {
-            cout<<"values:"<<constraint.get_values()<<'\n';
-            for (auto var : constraint.get_vars())
+            int var_index=constraint.get_var_indices().front();
+            auto values=get_values_sorted(var_index,variables,constraints);
+            cout<<"var_index:"<<var_index<<" values:"<<values<<'\n';
+            if (values.size()==0)
+                return false;
+            for (auto value : values)
             {
-                for (auto value : constraint.get_values())
-                {
-                    auto undo_info=set_variable(variables,var,value,constraints);
-                    if (solve(variables,constraints))
-                        return true;
-                    undo(constraints,undo_info);
-                }
+                cout<<"var_index:"<<var_index<<" v:"<<value<<'\n';
+                auto undo_info=set_variable(variables,var_index,value,constraints);
+                if (solve(variables,constraints,depth+1))
+                    return true;
+                cout<<"undo:"<<undo_info<<'\n';
+                undo(constraints,undo_info);
             }
         }
         return false;
@@ -150,7 +193,8 @@ private:
     bool hamiltonian_cycle(const Board& board)
     {
         build_constraint_graph(board);
-        solve(variables,constraints);
+        bool solved=solve(variables,constraints,0);
+        cout<<"SOLVED:"<<solved<<'\n';
         return true;
     }
     
@@ -161,7 +205,7 @@ ostream& operator<<(ostream& os,[[maybe_unused]] const Hamiltonian_Circuit& h)
 {
     //os<<h.cell_to_vars<<'\n';
     os<<h.constraints<<'\n';
-    os<<h.variables<<'\n';
+    //os<<h.variables<<'\n';
     return os;
 }
 
