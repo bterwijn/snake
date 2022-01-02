@@ -21,6 +21,24 @@ class Hamiltonian_Circuit
     
     void draw([[maybe_unused]]const Window_Param& wp)
     {
+        Col col=MyColor(255,165,0,255);
+        Coord b=wp.border+wp.cell/2;
+        CoorD w{2,2};
+        for (int i=0;i<cell_to_vars.size();i++)
+        {
+            Coord c=xy(i)*wp.cell;
+            Cell_To_Vars::Vars vars=cell_to_vars[i];
+            if (variables[vars[Directions::left_index]].get_value())
+            {
+                boxColor(sdl()->renderer(), b.x+c.x-wp.cell.x, b.y+c.y-w.y,
+                                            b.x+c.x,           b.y+c.y+w.y, col);
+            }
+            if (variables[vars[Directions::up_index]].get_value())
+            {
+                boxColor(sdl()->renderer(), b.x+c.x-w.x, b.y+c.y-wp.cell.y,
+                                            b.x+c.x+w.x, b.y+c.y,           col);
+            }
+        }
     }
 
 private:
@@ -103,7 +121,7 @@ private:
 
     vector<Constraint> set_variable(vector<Variable>& variables,int var,bool value,vector<Constraint>& constraints)
     {
-        cout<<"set_variable var:"<<var<<" value:"<<value<<'\n';
+        //cout<<"set_variable var:"<<var<<" value:"<<value<<'\n';
         Variable& variable=variables[var];
         variable.set_value(value);
         vector<Constraint> undo;
@@ -153,7 +171,7 @@ private:
         if (value_perms[0]>value_perms[1] ||
             (value_perms[0]==value_perms[1] && ((++draw_count)%2)>0)) // alternate on draw 
             swap(value_perms[0],value_perms[1]);
-        cout<<"value_perms:"<<value_perms<<'\n';
+        //cout<<"value_perms:"<<value_perms<<'\n';
         vector<bool> values;
         for (auto& value_perms : value_perms)
             if (value_perms.second<max_perms && value_perms.second>0)
@@ -164,28 +182,24 @@ private:
     bool solve(vector<Variable>& variables,vector<Constraint>& constraints,int depth)
     {
         cout<<"solve depth:"<<depth<<'\n';
-        cout<<*this;
-        auto count_best=get_lowest_contraint(constraints);
-        cout<<"count_best:"<<count_best<<'\n';
-        if (count_best.first==0)
+        //cout<<*this;
+        const auto [count, constraint]=get_lowest_contraint(constraints);
+        cout<<"count:"<<count<<" constraint:"<<constraint<<'\n';
+        if (count==0)
             return true;
-        Constraint& constraint=count_best.second;
-        if (count_best.first>0)
+        int var_index=constraint.get_var_indices().front();
+        auto values=get_values_sorted(var_index,variables,constraints);
+        cout<<"var_index:"<<var_index<<" values:"<<values<<'\n';
+        if (values.size()==0)
+            return false;
+        for (auto value : values)
         {
-            int var_index=constraint.get_var_indices().front();
-            auto values=get_values_sorted(var_index,variables,constraints);
-            cout<<"var_index:"<<var_index<<" values:"<<values<<'\n';
-            if (values.size()==0)
-                return false;
-            for (auto value : values)
-            {
-                cout<<"var_index:"<<var_index<<" v:"<<value<<'\n';
-                auto undo_info=set_variable(variables,var_index,value,constraints);
-                if (solve(variables,constraints,depth+1))
-                    return true;
-                cout<<"undo:"<<undo_info<<'\n';
-                undo(constraints,undo_info);
-            }
+            //cout<<"var_index:"<<var_index<<" v:"<<value<<'\n';
+            auto undo_info=set_variable(variables,var_index,value,constraints);
+            if (solve(variables,constraints,depth+1))
+                return true;
+            cout<<"undo:"<<undo_info<<'\n';
+            undo(constraints,undo_info);
         }
         return false;
     }
@@ -193,7 +207,9 @@ private:
     bool hamiltonian_cycle(const Board& board)
     {
         build_constraint_graph(board);
+        cout<<*this;
         bool solved=solve(variables,constraints,0);
+        cout<<*this;
         cout<<"SOLVED:"<<solved<<'\n';
         return true;
     }
@@ -204,6 +220,7 @@ private:
 ostream& operator<<(ostream& os,[[maybe_unused]] const Hamiltonian_Circuit& h)
 {
     //os<<h.cell_to_vars<<'\n';
+    //os<<h.permutations<<'\n';
     os<<h.constraints<<'\n';
     //os<<h.variables<<'\n';
     return os;

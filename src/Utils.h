@@ -2,8 +2,8 @@
 #define UTILS_H_INCLUDED
 #include "Includes.h"
 
-constexpr int width{5};
-constexpr int height{5};
+constexpr int width{12};
+constexpr int height{12};
 constexpr Coord zero,board_size{width,height};
 
 int index(int x,int y)
@@ -96,8 +96,6 @@ ostream& operator<<(ostream& os,const priority_queue<T,Cont,Comp>& p)
 template<class T1,class T2>
 ostream& operator<<(ostream& os,const pair<T1,T2>& p)
 { return os<<p.first<<':'<<p.second; }
-
-
 
 int factorial(int n)
 {

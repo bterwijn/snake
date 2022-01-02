@@ -4,11 +4,14 @@
 
 class Cell_To_Vars
 {
+public:
     using Vars = array<int,Directions::nr_directions>;
+
+private:
     array<Vars,width*height> cell_to_vars;
     int var_index=0;
     
- public:
+public:
     Cell_To_Vars()
     {
         for (int y=0;y<height;y++)
@@ -31,6 +34,15 @@ class Cell_To_Vars
         }
     }
 
+    int size() const
+    { return cell_to_vars.size();}
+
+    auto begin() const
+    { return cell_to_vars.begin(); }
+
+    auto end() const
+    { return cell_to_vars.end(); }
+    
     int get_nr_vars() const
     { return var_index; }
     

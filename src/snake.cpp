@@ -12,15 +12,16 @@ int main()
     //cout<<permutations;
     
     Board board;
-    //board.step();
-    //board.step();
+    Breadth_First breadth_first;
+    for (int i=0;i<6;i++)
+        breadth_first.step(board);
     cout<<board;
 
-    Breadth_First breadth_first;
     Hamiltonian_Circuit hamiltonian_circuit;
     hamiltonian_circuit.step(board);
     //cout<<hamilton_circuit;
-    
+
+ 
     MySDL::create_window("snake",600,600);
     bool running=true;
     while (running)
@@ -39,8 +40,9 @@ int main()
         SDL_RenderClear(sdl()->renderer());
 
         //board.step();
-        breadth_first.step(board);
+        //breadth_first.step(board);
         board.draw(Window_Param());
+        hamiltonian_circuit.draw(Window_Param());
         
         SDL_SetRenderDrawColor(sdl()->renderer(),0,0,0,255); // black background
         SDL_RenderPresent(sdl()->renderer());

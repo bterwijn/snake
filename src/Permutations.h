@@ -8,6 +8,8 @@ class Permutations
     
     int nr_permutations_helper(int nr_vars,int nr_connections)
     {
+        if (nr_connections<0 || nr_connections>nr_vars)
+            return 0;
         if (nr_connections==0)
             return 1;
         int nr_non_connections=nr_vars-nr_connections;
